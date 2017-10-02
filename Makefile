@@ -14,8 +14,11 @@ TESTS = rope_test \
 
 all: $(TESTS)
 
+UNAME_S := $(shell uname -s)
+
 %_test : %.o %_test.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	dsymutil $@
 
 %.o : %.c
 %.o : %.c $(DEPDIR)/%.d
@@ -30,4 +33,6 @@ $(DEPDIR)/%.d: ;
 clean:
 	rm -rf *.o
 	rm -rf $(DEPDIR)
+	rm -rf $(TESTS)
+	rm -rf *.dSYM
 
